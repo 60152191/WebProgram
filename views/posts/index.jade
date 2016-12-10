@@ -9,8 +9,9 @@ block content
         tr
           th 이메일
           th 제목
-          th 날짜
-          th 조회수
+          th 도시
+          th 댓글
+          th 작성일
           th
       tbody
         each post in posts
@@ -18,18 +19,15 @@ block content
             td= post.email
             td
               a(href='/posts/#{post.id}')= post.title
+            td= post.country
+            td= post.numComment
             td= moment(post.createdAt).format('YYYY-MM-DD HH:mm:ss')
-            td= post.read
             td
               a.btn.btn-xs.btn-default(href='/posts/#{post.id}/edit') 수정
               | 
               a.btn.btn-xs.btn-default(data-id=post.id, class='delete') 삭제
 
     a.btn.btn-primary(href='/posts/new') 글쓰기
-
-    //- 아래의 Pagination 부분은 만들 수 있다면 추가 점수 부여합니다. 
-    //- 못하겠으면 빼도 좋아요.              
-  
 
     form#deleteForm(style='display:none', method="POST")
             

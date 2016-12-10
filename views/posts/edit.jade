@@ -14,12 +14,28 @@ block content
         label(for='password') Password
         input.form-control(type='password', id='password', name='password', placeholder='Password')
       .form-group
-        label(for='title') Title
+        label(for='title') Title 
         input.form-control(type='text', id='title', name='title', placeholder='title', value=post.title)
       .form-group
         label(for='content') Content
         textarea.form-control(id='content', rows='10', name='content', placeholder='content here')= post.content
+      .form-group 
+        label(for='country') Country
+        input.form-control(type='country', id='country', name='country', placeholder='country', value=post.country)
+      .form-group
+        label(for='address') Address
+        input.form-control(type='address', id='address', name='address', placeholder='address', value=post.address)
+      .form-group
+        label(for='price') Price
+        input.form-control(type='price', id='price', name='price', placeholder='price', value=post.price)
+      .form-group
+        label(for='convenient') Convenient
+        input.form-control(type='convenient', id='convenient', name='convenient', placeholder='convenient', value=post.convenient)
+      .form-group
+        label(for='rule') Rule
+        input.form-control(type='rule', id='rule', name='rule', placeholder='rule', value=post.rule)
 
+      
       div.form-actions
         a.btn.btn-default(href='javascript:window.history.back();') 뒤로 
         | 
