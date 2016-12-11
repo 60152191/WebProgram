@@ -32,12 +32,23 @@ block content
     tr
       th email
       th content
+      th check in
+      th check out
+      th personnel
       th time
+      th sign/unsign
     each comment in comments
       tr
         td= comment.email
         td= comment.content
+        td= comment.checkin
+        td= comment.checkout
+        td= comment.personnel
         td= moment(comment.createdAt).format('YYYY/MM/DD')
+        td
+              a.btn.btn-xs.btn-default(href='/posts') 승인
+              | 
+              a.btn.btn-xs.btn-default(href='/posts') 거절
   
   form.form-inline(action='/posts/' + post._id + '/comments', method='POST')
     .form-group
@@ -45,7 +56,16 @@ block content
       input.form-control(name='email', placeholder='email')
     .form-group
       label.sr-only(for='content') content
-      input.form-control(name='content', size=50, placeholder='content')
+      input.form-control(name='content', size=40, placeholder='content')
+    .form-group
+      label.sr-only(for='check in') checkin
+      input.form-control(name='checkin', size=15, placeholder='checkin')
+    .form-group
+      label.sr-only(for='check out') checkout
+      input.form-control(name='checkout', size=15, placeholder='checkout')
+    .form-group
+      label.sr-only(for='personnel') personnel
+      input.form-control(name='personnel', size=10, placeholder='personnel')
     button.btn.btn-info 댓글저장
     
 

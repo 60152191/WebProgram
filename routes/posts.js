@@ -1,4 +1,7 @@
 var express = require('express'),
+    path = require('path'),
+    _ = require('lodash'),
+    fs = require('fs'),
     User = require('../models/User'),
     post = require('../models/post');
     Comment = require('../models/comment');
@@ -127,5 +130,30 @@ var express = require('express'),
       });
     });
   });
+  
+  //코멘트
+  router.post('/:id/comments', function(req, res, next) {
+  var comment = new Comment({
+    post: req.params.id,
+    email: req.body.email,
+    content: req.body.content,
+    checkin: req.body.checkin,
+    checkout: req.body.checkout,
+    personnel: req.body.personnel,
+  });
+
+  comment.save(function(err) {
+    if (err) {
+      return next(err);
+    }
+    post.findByIdAndUpdate(req.params.id, {$inc: {numComment: 1}}, function(err) {
+      if (err) {
+        return next(err);
+      }
+      res.redirect('/posts/' + req.params.id);
+    });
+  });
+});
+
 
 module.exports = router;
