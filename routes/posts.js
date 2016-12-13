@@ -121,36 +121,6 @@ var mimetypes = {
     });
   });
 
-  //게시글 수정
-  router.put('/:id', needAuth, function(req, res, next) {
-    post.findById({_id: req.params.id}, function(err, post) {
-      if (err) {
-        return next(err);
-      }
-      if (post.password !== req.body.current_password) {
-        return res.redirect('back');
-      }
-
-      post.email = req.body.email;
-      post.title = req.body.title;
-      post.content = req.body.content;
-      post.country = req.body.country;
-      post.address = req.body.address;
-      post.price = req.body.price;
-      post.convenient = req.body.convenient;
-      post.rule = req.body.rule;
-      if (req.body.password) {
-        post.password = req.body.password;
-      }
-
-      post.save(function(err) {
-        if (err) {
-          return next(err);
-        }
-        res.redirect('/posts');
-      });
-    });
-  });
   
   //코멘트
   router.post('/:id/comments', function(req, res, next) {
