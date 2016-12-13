@@ -34,7 +34,15 @@ block content
       .form-group
         label(for='rule') Rule
         input.form-control(type='rule', id='rule', name='rule', placeholder='rule', value=post.rule)
-
+      .form-group
+        label(for='images') images 1
+        input.form-control(type="file", name='photos')
+      .form-group
+        label(for='images') images 2
+        input.form-control(type="file", name='photos')
+      .form-group
+        label(for='images') images 3
+        input.form-control(type="file", name='photos')
       
       div.form-actions
         a.btn.btn-default(href='javascript:window.history.back();') 뒤로 

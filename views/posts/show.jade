@@ -25,6 +25,8 @@ block content
     p
       b Use rule
     p.well(style='white-space:pre;')= post.rule
+    each img in post.images
+      img.img-rounded.img-responsive(src=img) 
   
 
   h3 Comment #{post.numComment}
@@ -46,10 +48,31 @@ block content
         td= comment.personnel
         td= moment(comment.createdAt).format('YYYY/MM/DD')
         td
-              a.btn.btn-xs.btn-default(href='/posts') 승인
+              a.btn.btn-xs.btn-default(data-id=post.id, class='yes') 승인
               | 
-              a.btn.btn-xs.btn-default(href='/posts') 거절
-  
+              a.btn.btn-xs.btn-default(data-id=post.id, class='no') 거절
+    
+       
+    script(type='text/javascript').
+      $(".yes").click(function(e) {
+        var id = $(e.currentTarget).data('id');
+        if (confirm('예약을 승인하시겠습니까?')) {
+          $("#deleteForm").attr('action', "/posts/" + id + "?_method=DELETE").submit();  
+          confirm('예약이 완료되었습니다.')       
+        }
+        return false;
+      });
+
+    script(type='text/javascript').
+      $(".no").click(function(e) {
+        var id = $(e.currentTarget).data('id');
+        if (confirm('예약을 거절하시겠습니까?')) {
+          $("#deleteForm").attr('action', "/posts/" + id + "?_method=DELETE").submit(); 
+          confirm('예약이 거절되었습니다.')           
+        }
+        return false;
+      });
+
   form.form-inline(action='/posts/' + post._id + '/comments', method='POST')
     .form-group
       label.sr-only(for='email') email

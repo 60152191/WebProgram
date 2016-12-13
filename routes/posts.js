@@ -1,20 +1,27 @@
 var express = require('express'),
+    multer  = require('multer'),
     path = require('path'),
     _ = require('lodash'),
     fs = require('fs'),
+    upload = multer({ dest: 'tmp' }),
     User = require('../models/User'),
     post = require('../models/post');
     Comment = require('../models/comment');
 
-  var router = express.Router();
-  function needAuth(req, res, next) {
+var router = express.Router();
+function needAuth(req, res, next) {
     if (req.isAuthenticated()) {
       next();
     } else {
       req.flash('danger', '로그인이 필요합니다.');
       res.redirect('/signin');
     }
-  }
+}
+var mimetypes = {
+  "image/jpeg": "jpg",
+  "image/gif": "gif",
+  "image/png": "png"
+};
 
 
   /* GET users listing. */
@@ -66,7 +73,20 @@ var express = require('express'),
 
 
   //새로운 게시글 등록
-  router.post('/', needAuth, function(req, res, next) {
+  router.post('/', needAuth, upload.array('photos'), function(req, res, next) {
+      var dest = path.join(__dirname, '../public/image/');
+      var images = [];
+      if (req.files && req.files.length > 0) {
+        _.each(req.files, function(file) {
+          var ext = mimetypes[file.mimetype];
+          if (!ext) {
+            return;
+          }
+          var filename = file.filename + "." + ext;
+          fs.renameSync(file.path, dest + filename);
+          images.push("/image/" + filename);
+        });
+      }
       var newpost = new post({
         title: req.body.title,
         email: req.body.email,
@@ -75,9 +95,10 @@ var express = require('express'),
         address: req.body.address,
         price: req.body.price,
         convenient: req.body.convenient,
-        rule: req.body.rule
+        rule: req.body.rule,
+        images: images
       });
-      console.log(req.body)
+      console.log(req.body);
       newpost.save(function(err) {
         if (err) {
           return next(err);
@@ -139,7 +160,7 @@ var express = require('express'),
     content: req.body.content,
     checkin: req.body.checkin,
     checkout: req.body.checkout,
-    personnel: req.body.personnel,
+    personnel: req.body.personnel
   });
 
   comment.save(function(err) {

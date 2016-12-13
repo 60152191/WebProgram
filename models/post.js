@@ -6,6 +6,7 @@ var schema = new Schema({
   title: {type: String, required: true, trim: true},
   email: {type: String, required: true, index: true, unique: true, trim: true},
   password: {type: String},
+  images: [String],
   numComment: {type: Number, default: 0},
   content: {type: String, required: true, trim: true},
   country: {type: String, required: true, trim: true},
@@ -19,6 +20,6 @@ var schema = new Schema({
   toObject: {virtuals: true}
 });
 
-var post = mongoose.model('post', schema);
+var post = mongoose.model('ImgPost', schema);
 
 module.exports = post;
